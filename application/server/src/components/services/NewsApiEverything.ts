@@ -1,6 +1,6 @@
 ﻿import NewsService, {ArticleQueryParams} from './NewsService.js'
 import NewsAPI from 'newsapi'
-import * as News from "../../common/newsInterface";
+import * as News from "../../common/newsInterface.js";
 
 
 /**

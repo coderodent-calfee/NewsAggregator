@@ -22,7 +22,7 @@ npm install
 ```
 then
 ```bash
-npm init
+npm run init
 ```
 
 #### Start the client and server with the following command
