@@ -1,0 +1,19 @@
+title News Aggregation Sequence
+Client->Server:Make new article request
+Server->NewsApi:Request paged article request
+NewsApi->Server:Return Paged Articles 
+Server->Database:Cache Paged Articles in DB
+Server->Client: Provide Articles as Content
+====
+Client->Server:Remake prior article request\nProvides state, topic, and tags
+Server->Database:Get Articles from DB\nSelect with state, topic, and tags
+Database->Server: Return Articles
+Server->Client: Return Paged Articles as Content
+====
+Client->Server:Mark Article as Starred, or add other Tag
+Server->Database:Tag Article in DB
+====
+Client->Server:Request Tagged Articles
+Server->Database:Get Articles from DB\nSelect with Tags
+Database->Server:Return Tagged Articles from DB
+Server->Client: Provide Articles as Content
