@@ -41,9 +41,8 @@ npm run [client|server|both] [build|start|lint]
  routing. The NewsService is used to define the interface to any number of custom accessors to providers.
  The aggregation happens when the articles are retrieved, and the format is consolidated into a common format. The link 
  is hashed into an ID, which should provide a simple way to remove duplicates.
-- **Scalability**: Discuss how the system could handle thousands of news articles
-across multiple states and topics. Would you index the articles? What storage
-strategies would you use?
+- **Scalability**: Obviously SQLlite is not the optimal database solution for a large scale application; it suits best a
+  self-contained exploration. That would be the first stem in scaling. 
 - **Search Optimization**: Searching through potentially large datasets could be made more efficient by time slicing the 
  queries, or otherwise spreading the searches around, date-limiting or limiting the page count.
 
