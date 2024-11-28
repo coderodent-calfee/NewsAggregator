@@ -1,7 +1,7 @@
 ﻿import * as News from "../common/newsInterface";
 import React, {useState} from "react";
 import {NewsCard} from "./NewsCard";
-import GetButton from "./getButton";
+import GetButton from "./GetButton";
 import SearchTagSelector from "./SearchTagContainer";
 
 export interface SelectedArticleControlProperties {
