@@ -14,7 +14,7 @@
     "build": "concurrently \"npm run client build\" \"npm run server build\"",
     "launch": "start npm run client start && start npm run server start",
     "start": "concurrently \"npm run client start\" \"npm run server start\"",
-    "stuck": "echo '  Proto  Local Address          Foreign Address        State           PID' & netstat -a -o -n | grep '3035' & echo taskkill /f /pid"
+    "stuck": "npm run server stuck"
   },
   "copyFiles": [
     {

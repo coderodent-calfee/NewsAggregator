@@ -45,7 +45,7 @@ import {SERVER_PORT, CLIENT_PORT} from './common/ports.js'
  * SQL schema
  * POST
  */
-console.log("Server starts");
+console.log("Server starts!");
 export const app = express();
 
 const dbReady = new DatabaseConnectionFactory().create("current.db");

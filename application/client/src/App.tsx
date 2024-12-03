@@ -132,7 +132,7 @@ function App() {
     };
 
     window.addEventListener("scroll", debounce(handleScroll, 500));
-    console.warn("starting here");
+    console.warn("starting here!!!!!!");
     return (
         <div className="App">
             <header className="App-header grid-container ">

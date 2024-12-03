@@ -5,13 +5,14 @@
   "main": "dist/app.js",
   "type": "module",
   "scripts": {
-    "start": "tsx watch dist/app.js",
-    "dev": "tsc --watch & node dist/app.js",
+    "start": "tsx --watch ./src/app.ts",
+    "dev": "tsc --watch & nodemon dist/app.js",
     "launch": "tsc && start node dist/app.js",
     "build": "tsc",
     "lint": "eslint ./src ",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "copy": "npx copy-files-from-to"
+    "copy": "npx copy-files-from-to",
+    "stuck": "echo '  Proto  Local Address          Foreign Address        State           PID' & netstat -a -o -n | grep '3035' & echo taskkill /f /pid"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +25,7 @@
     "eslint": "^9.13.0",
     "globals": "^15.11.0",
     "nodemon": "^3.1.7",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.11.0"
   },

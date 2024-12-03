@@ -3,7 +3,7 @@ import {setupRouter, ParamFunction} from './setup.js'
 import {DatabaseConnection} from "../components/database/connection.js";
 
 export const route = '/api/database';
-export const queryParams = ['action'];
+//export const queryParams = ['action'];
 export const routeParams = ['table']; // see types.d.ts if you want to add more
 
 export function setupDatabaseRouter(app : Express, db : DatabaseConnection){
