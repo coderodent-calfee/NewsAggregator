@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import {setupNewsRouter} from './routes/news.js';
 import {setupDatabaseRouter} from "./routes/database.js";
-import {DatabaseConnection} from "./components/database/connection.js";
+import {DatabaseConnection, DatabaseConnectionFactory} from "./components/database/connection.js";
 import {NewsApiEverything} from './components/services/NewsApiEverything.js';
 import {SERVER_PORT, CLIENT_PORT} from './common/ports.js'
 
@@ -45,16 +45,10 @@ import {SERVER_PORT, CLIENT_PORT} from './common/ports.js'
  * SQL schema
  * POST
  */
-
+console.log("Server starts");
 export const app = express();
-export const db = new DatabaseConnection();
 
-const dbReady = db.initializeDatabase().then(()=> {
-      db.loadDatabase("current.db").then(()=> {
-          db.printDatabaseTables();
-      });
-    });
-
+const dbReady = new DatabaseConnectionFactory().create("current.db");
 
 const allowedOrigins = [`http://localhost:${CLIENT_PORT}`];
 
@@ -69,17 +63,18 @@ app.get('/', (req, res) => {
   res.send(`This is the Server: Express App, listening at http://localhost:${SERVER_PORT}/`);
 });
 
-setupNewsRouter(app, db);
 
-dbReady.then(()=>{
+dbReady.then((db)=>{
     setupDatabaseRouter(app, db);
-}).finally(()=>{
-    app.get('*', (req, res) => {
-        res.status(404).json({ error: `This is the Server: 404\n ${req.url} not found` })
-    });
+    setupNewsRouter(app, db);
+});
 
-    app.listen(SERVER_PORT, () => {
-        return console.log(`console.log:  Express is listening at http://localhost:${SERVER_PORT}`);
-    });
+
+app.get('*', (req, res) => {
+    res.status(404).json({ error: `This is the Server: 404\n ${req.url} not found` })
+});
+
+app.listen(SERVER_PORT, () => {
+    return console.log(`console.log:  Express is listening at http://localhost:${SERVER_PORT}`);
 });
 

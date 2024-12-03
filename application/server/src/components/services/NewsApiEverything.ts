@@ -1,7 +1,8 @@
 ﻿import NewsService, {ArticleQueryParams} from './NewsService.js'
+// @ts-ignore
 import NewsAPI from 'newsapi'
 import * as News from "../../common/newsInterface.js";
-
+import {Response} from "express";
 
 /**
  * (query param doesn't work: use X-Api-Key:  News.API_KEY)
@@ -39,16 +40,17 @@ import * as News from "../../common/newsInterface.js";
 
 const newsapi = new NewsAPI(News.API_KEY);
 
-
+interface ArticlesResponse {
+    status : string;
+    totalResults: number;
+    articles: Array<any>; 
+}
 export class NewsApiEverything extends NewsService {
 
     async getNewsArticles({state, topic, search, page} : ArticleQueryParams ): Promise<News.response>{
         const legalTags = [`Judge`, `Legal`, `Lawyer`, `Lawmaker`];
         const searchArg : string[] = [];
-        if(typeof search === 'string'){
-            searchArg.push(search);
-        }
-        if(typeof search === typeof searchArg){
+        if( search !== undefined){
             searchArg.push(...search);
         }
 
@@ -62,7 +64,7 @@ export class NewsApiEverything extends NewsService {
             language: 'en',
             pageSize : 20,            
             page
-        }).then(res => {
+        }).then((res : ArticlesResponse) => {
             // collect just title, date, state, summary, link
             // make an id
             // sort out search (add topic)
@@ -83,7 +85,7 @@ export class NewsApiEverything extends NewsService {
                 status: res.status,
                 totalResults: res.totalResults
             };
-        }).catch((error) => {
+        }).catch((error : any) => {
             console.error(`Error ${error} newsapi getNewsArticles Request ${state} ${topic} ${search} ${page} `);
             return {
                 articles: [

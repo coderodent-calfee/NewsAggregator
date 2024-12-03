@@ -14,7 +14,6 @@ export function setupNewsRouter(app : Express, db : DatabaseConnection){
             case 'id':
                 const modified = value.toUpperCase();
                 console.log("modified: ", modified);
-                req.id = modified;
                 break;
             default:
         }
@@ -27,14 +26,9 @@ export function setupNewsRouter(app : Express, db : DatabaseConnection){
     // request with route params '/api/news/identifier'
     // todo: change route params so I can have more routes
     const routeFunction : RequestHandler = (req : Request, res : Response) => {
-        const params = {};
-        News.routeParams.forEach((param)=>{
-            if(req.params[param] !== undefined) {
-                params[param] = req.params[param];
-            }
-        });
-        console.log("params: ", params);
-        const jsonResponse = JSON.stringify({server : req.url, params, isQuery:false});
+
+        console.log("params: ", req.params);
+        const jsonResponse = JSON.stringify({server : req.url, params : req.params, isQuery:false});
         console.log("jsonResponse: ", jsonResponse);
         res.send(jsonResponse);
     };
@@ -42,11 +36,10 @@ export function setupNewsRouter(app : Express, db : DatabaseConnection){
     // request with query params '?' and '&'
     const queryFunction : RequestHandler =(req : Request, res : Response) => {
         console.log("queryFunction req.query: ", req.query);
-        const queries = <ArticleQueryParams>{
-            state : 'any',
-            topic : 'any'
+        const queries: { state: any; topic: any; [key: string]: any } = {
+            state: '',
+            topic: ''
         };
-        
         const keys = Object.keys(new ArticleQuery);
         keys.forEach((query)=>{
             if(req.query[query] !== undefined) {

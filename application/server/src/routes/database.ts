@@ -1,7 +1,6 @@
 ﻿import {Express, Request, Response, NextFunction, RequestHandler} from 'express';
 import {setupRouter, ParamFunction} from './setup.js'
 import {DatabaseConnection} from "../components/database/connection.js";
-import {db} from "../app";
 
 export const route = '/api/database';
 export const queryParams = ['action'];
@@ -14,7 +13,7 @@ export function setupDatabaseRouter(app : Express, db : DatabaseConnection){
             case 'table':
                 const modified = value.toLowerCase();
                 console.log("modified: ", modified);
-                req.table = modified;
+//                req.table = modified;
                 break;
             default:
         }
@@ -23,7 +22,7 @@ export function setupDatabaseRouter(app : Express, db : DatabaseConnection){
 
     // request with route params '/api/database/:table'
     const routeFunction : RequestHandler = (req : Request, res : Response) => {
-        const params = {};
+        const params: { [key: string]: string } = {};
         routeParams.forEach((param)=>{
             if(req.params[param] !== undefined) {
                 params[param] = req.params[param];
@@ -35,14 +34,9 @@ export function setupDatabaseRouter(app : Express, db : DatabaseConnection){
 
     // request with query params '?' and '&'
     const queryFunction : RequestHandler =(req : Request, res : Response) => {
-        const queries = {};
-        queryParams.forEach((query)=>{
-            if(req.query[query] !== undefined) {
-                queries[query] = req.query[query];
-            }
-        });
-        if(Object.keys(queries).includes('action')){
-            const action = queries['action'];
+
+        if(Object.keys(req.query).includes('action')){
+            const action = req.query['action'];
             switch(action){
                 case 'init': {
                     db.resetDatabaseTables();
@@ -63,7 +57,7 @@ export function setupDatabaseRouter(app : Express, db : DatabaseConnection){
             }            
         }
         
-        const jsonResponse = JSON.stringify({server : req.url, queries, isQuery:true});
+        const jsonResponse = JSON.stringify({server : req.url, query : req.query, isQuery:true});
         res.send(jsonResponse);
     };
     setupRouter(app, route, routeParams, paramFunction, routeFunction, queryFunction);

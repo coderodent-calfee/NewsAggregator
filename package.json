@@ -9,10 +9,12 @@
   "scripts": {
     "client": "npm run --workspace=client",
     "server": "npm run --workspace=server",
-    "both": "npm run --workspaces",
-    "launch": "start npm run client start && start npm run server start",
     "copy": "npx copy-files-from-to",
-    "init": "cd application/client && npm install && cd ../../application/server && npm install && cd ../.. && npx copy-files-from-to"
+    "init": "cd application/client & npm install & cd ../../application/server & npm install & cd ../.. & npx copy-files-from-to",
+    "build": "concurrently \"npm run client build\" \"npm run server build\"",
+    "launch": "start npm run client start && start npm run server start",
+    "start": "concurrently \"npm run client start\" \"npm run server start\"",
+    "stuck": "echo '  Proto  Local Address          Foreign Address        State           PID' & netstat -a -o -n | grep '3035' & echo taskkill /f /pid"
   },
   "copyFiles": [
     {
@@ -44,9 +46,9 @@
   },
   "homepage": "https://github.com/coderodent-calfee/NewsAggregator-monorepo#readme",
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
-  },
-  "dependencies": {
-    "concurrently": "^9.1.0"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "concurrently": "^9.1.0",
+    "nodemon": "^3.1.7",
+    "typescript": "^5.7.2"
   }
 }
